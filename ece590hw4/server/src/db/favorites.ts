@@ -1,6 +1,8 @@
 export type Favorite = {
   id: string;
   zip: string;
+  name: string;
+  region: string;
 };
 
 const US_ZIP = /^\d{5}$/;
@@ -15,7 +17,7 @@ export function getAll(): Favorite[] {
   return [...favorites];
 }
 
-export function create(zip: string): Favorite | null {
+export function create(zip: string, name: string, region: string): Favorite | null {
   if (favorites.some((favorite) => favorite.zip === zip)) {
     return null;
   }
@@ -23,6 +25,8 @@ export function create(zip: string): Favorite | null {
   const favorite: Favorite = {
     id: String(nextId),
     zip,
+    name,
+    region,
   };
   nextId += 1;
   favorites.push(favorite);

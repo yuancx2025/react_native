@@ -12,7 +12,7 @@ export function Forecast({ days, useMetric }: ForecastProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>3 Day Forecast</Text>
-      <View style={styles.row}>
+      <View style={styles.list}>
         {days.map((day) => (
           <ForecastDay key={day.date} day={day} useMetric={useMetric} />
         ))}
@@ -31,9 +31,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     textAlign: 'center',
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
+  list: {
+    gap: 10,
   },
 });

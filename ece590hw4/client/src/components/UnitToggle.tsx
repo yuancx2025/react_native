@@ -8,22 +8,20 @@ interface UnitToggleProps {
 
 export function UnitToggle({ useMetric, onToggle }: UnitToggleProps) {
   return (
-    <Pressable onPress={onToggle} style={styles.button} accessibilityRole="button">
+    <Pressable onPress={onToggle} style={styles.action} accessibilityRole="button">
       <Text style={styles.text}>{useMetric ? 'Switch to Imperial' : 'Switch to Metric'}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: colors.navy,
-    borderRadius: 4,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+  action: {
+    minHeight: 44,
+    justifyContent: 'center',
   },
   text: {
     fontFamily: fonts.regular,
     fontSize: 16,
-    color: colors.surface,
+    color: colors.navy,
   },
 });

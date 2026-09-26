@@ -11,7 +11,6 @@ import { UnitToggle } from './UnitToggle';
 interface MainScreenProps {
   weather?: WeatherData;
   selectedZip?: string;
-  fromFavorite: boolean;
   isFavorite: boolean;
   useMetric: boolean;
   onOpenSearch: () => void;
@@ -22,35 +21,25 @@ interface MainScreenProps {
 export function MainScreen({
   weather,
   selectedZip,
-  fromFavorite,
   isFavorite,
   useMetric,
   onOpenSearch,
   onAddFavorite,
   onToggleUnits,
 }: MainScreenProps) {
-  const searchLabel = selectedZip ?? 'Search zip code';
-
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.page}>
-        <SearchBar label={searchLabel} onPress={onOpenSearch} />
+        <SearchBar label="Enter a Zip Code" onPress={onOpenSearch} />
 
         {weather && selectedZip ? (
           <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-            <CurrentConditions
-              weather={weather}
-              zip={selectedZip}
-              fromFavorite={fromFavorite}
-              useMetric={useMetric}
-            />
-
+            <CurrentConditions weather={weather} useMetric={useMetric} />
+            <Forecast days={weather.forecast.forecastday} useMetric={useMetric} />
             <View style={styles.actions}>
               <FavoriteHeart isFavorite={isFavorite} onAddFavorite={onAddFavorite} />
               <UnitToggle useMetric={useMetric} onToggle={onToggleUnits} />
             </View>
-
-            <Forecast days={weather.forecast.forecastday} useMetric={useMetric} />
           </ScrollView>
         ) : (
           <View style={styles.empty}>
@@ -80,8 +69,9 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 20,
   },
   empty: {
     flex: 1,

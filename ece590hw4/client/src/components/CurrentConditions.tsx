@@ -1,21 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { formatClock, formatLocation, formatTemp, formatWindSpeed } from '../format';
+import { formatClock, formatTemp, formatWindSpeed } from '../format';
 import { colors, fonts } from '../theme';
 import type { WeatherData } from '../types';
 
 interface CurrentConditionsProps {
   weather: WeatherData;
-  zip: string;
-  fromFavorite: boolean;
   useMetric: boolean;
 }
 
-export function CurrentConditions({
-  weather,
-  zip,
-  fromFavorite,
-  useMetric,
-}: CurrentConditionsProps) {
+export function CurrentConditions({ weather, useMetric }: CurrentConditionsProps) {
   const today = weather.forecast.forecastday[0];
   const temp = formatTemp(useMetric ? weather.current.temp_c : weather.current.temp_f, useMetric);
   const feelsLike = formatTemp(
@@ -23,34 +16,25 @@ export function CurrentConditions({
     useMetric,
   );
   const windSpeed = formatWindSpeed(useMetric ? weather.current.wind_kph : weather.current.wind_mph);
-  const location = formatLocation(
-    weather.location.name,
-    weather.location.region,
-    fromFavorite ? zip : undefined,
-  );
+  const unit = useMetric ? 'KPH' : 'MPH';
 
   return (
     <View style={styles.container}>
       <Text style={styles.temp}>{temp}</Text>
-      <Text style={styles.location}>{location}</Text>
       <Text style={styles.feelsLike}>Feels like {feelsLike}</Text>
+      <Text style={styles.place}>{weather.location.name}</Text>
+      <Text style={styles.place}>{weather.location.region}</Text>
 
-      <View style={styles.detailsRow}>
-        <View style={styles.detail}>
-          <Text style={styles.detailLabel}>Sunrise:</Text>
-          <Text style={styles.detailValue}>{today ? formatClock(today.astro.sunrise) : ''}</Text>
-        </View>
-        <View style={styles.detail}>
-          <Text style={styles.detailLabel}>Wind</Text>
-          <Text style={styles.detailValue}>
-            {windSpeed} {useMetric ? 'KPH' : 'MPH'}
-          </Text>
-          <Text style={styles.detailValue}>{weather.current.wind_dir}</Text>
-        </View>
-        <View style={styles.detail}>
-          <Text style={styles.detailLabel}>Sunset:</Text>
-          <Text style={styles.detailValue}>{today ? formatClock(today.astro.sunset) : ''}</Text>
-        </View>
+      <View style={styles.bar}>
+        <Text style={styles.barText}>
+          Sunrise: {today ? formatClock(today.astro.sunrise) : ''}
+        </Text>
+        <Text style={styles.barText}>Sunset: {today ? formatClock(today.astro.sunset) : ''}</Text>
+      </View>
+      <View style={styles.bar}>
+        <Text style={styles.barText}>
+          Wind: {weather.current.wind_dir} {windSpeed} {unit}
+        </Text>
       </View>
     </View>
   );
@@ -59,7 +43,7 @@ export function CurrentConditions({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   temp: {
     fontFamily: fonts.regular,
@@ -67,37 +51,31 @@ const styles = StyleSheet.create({
     lineHeight: 72,
     color: colors.text,
   },
-  location: {
-    fontFamily: fonts.regular,
-    fontSize: 20,
-    color: colors.text,
-    textAlign: 'center',
-  },
   feelsLike: {
     fontFamily: fonts.regular,
     fontSize: 18,
     color: colors.text,
   },
-  detailsRow: {
+  place: {
+    fontFamily: fonts.regular,
+    fontSize: 20,
+    color: colors.text,
+    textAlign: 'center',
+  },
+  bar: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  detail: {
-    flex: 1,
     alignItems: 'center',
-    gap: 4,
+    backgroundColor: colors.forecast,
+    borderRadius: 4,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    gap: 12,
   },
-  detailLabel: {
+  barText: {
     fontFamily: fonts.regular,
     fontSize: 16,
     color: colors.text,
-  },
-  detailValue: {
-    fontFamily: fonts.regular,
-    fontSize: 16,
-    color: colors.text,
-    textAlign: 'center',
   },
 });

@@ -1,6 +1,8 @@
 export type Favorite = {
   id: string;
   zip: string;
+  name: string;
+  region: string;
 };
 
 export type WeatherCondition = {

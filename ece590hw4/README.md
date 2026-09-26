@@ -60,10 +60,11 @@ The Android emulator cannot use `localhost` for the host machine. The client use
 
 1. Tap the search bar. Enter a 5-digit US zip code. A valid zip loads automatically.
 2. While the request is in flight, an activity indicator appears. An unknown zip shows **Location not found.**
-3. Tap a search result to show that location on the main screen. **Cancel** closes the modal and leaves the previous location in place.
-4. Use **Switch to Metric** / **Switch to Imperial** for C/KPH vs F/MPH.
-5. Tap **Add to Favorites** (outline heart) to save the current zip. A saved location shows a filled heart and no add button.
-6. In the search modal, tap a favorite to load it (spinner while it fetches). **Remove** deletes it from the server.
+3. A match appears under **Search Results:** as the city in bold, then the state and zip. Tap that row to show the location on the main screen. **Cancel** closes the modal and leaves the previous location in place.
+4. The main screen shows the temperature, feels-like, city, and state. Sunrise and sunset share one bar. Wind is on the next bar. The 3-day forecast is three stacked rows. The search bar stays **Enter a Zip Code**.
+5. Use **Switch to Metric** / **Switch to Imperial** for C/KPH vs F/MPH.
+6. Tap **Add to Favorites** (outline heart) to save the current place. A saved location shows a filled heart and no add button.
+7. Saved places are listed under **Favorites:** in the same city, state, and zip format. Tap a row to load it (spinner while it fetches). **Remove** deletes it from the server.
 
 Empty main screen copy: `Touch the search bar to enter a zip code`.
 
@@ -76,12 +77,12 @@ Empty main screen copy: `Touch the search bar to enter a zip code`.
 | `client/.env` | WeatherAPI key (`EXPO_PUBLIC_WEATHER_API_KEY`) |
 | `client/App.tsx` | App state: weather, units, favorites, modal |
 | `client/src/api.ts` | WeatherAPI + favorites fetch helpers |
-| `client/src/components/` | Main screen, search modal, forecast cards |
+| `client/src/components/` | Main screen, search modal, stacked forecast rows |
 
 ## API
 
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/favorites` | List all favorites |
-| `POST` | `/favorites` | Add `{ "zip": "27513" }` |
+| `POST` | `/favorites` | Add `{ "zip": "27513", "name": "Cary", "region": "North Carolina" }` |
 | `DELETE` | `/favorites/:id` | Remove a favorite by id |

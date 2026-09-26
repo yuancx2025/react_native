@@ -36,11 +36,15 @@ export async function fetchFavorites(): Promise<Favorite[]> {
   return (await res.json()) as Favorite[];
 }
 
-export async function addFavorite(zip: string): Promise<Favorite> {
+export async function addFavorite(favorite: {
+  zip: string;
+  name: string;
+  region: string;
+}): Promise<Favorite> {
   const res = await fetch(`${FAVORITES_BASE}/favorites`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ zip }),
+    body: JSON.stringify(favorite),
   });
   const data = (await res.json()) as Favorite & { error?: string };
   if (!res.ok) {

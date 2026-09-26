@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { Inter_400Regular, useFonts } from '@expo-google-fonts/inter';
+import { Inter_400Regular, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { addFavorite, deleteFavorite, fetchFavorites, fetchWeather, getWeatherApiKey } from './src/api';
@@ -12,11 +12,10 @@ import type { Favorite, SearchStatus, WeatherData } from './src/types';
 const US_ZIP = /^\d{5}$/;
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ Inter_400Regular });
+  const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_700Bold });
 
   const [weather, setWeather] = useState<WeatherData | undefined>(undefined);
   const [selectedZip, setSelectedZip] = useState<string | undefined>(undefined);
-  const [fromFavorite, setFromFavorite] = useState(false);
   const [useMetric, setUseMetric] = useState(false);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
 
@@ -94,7 +93,6 @@ export default function App() {
     }
     setWeather(searchResult);
     setSelectedZip(draftZip.trim());
-    setFromFavorite(false);
     setUseMetric(false);
     closeModal();
   };
@@ -106,7 +104,6 @@ export default function App() {
       const data = await fetchWeather(favorite.zip);
       setWeather(data);
       setSelectedZip(favorite.zip);
-      setFromFavorite(true);
       setUseMetric(false);
       closeModal();
     } catch {
@@ -117,11 +114,15 @@ export default function App() {
   };
 
   const handleAddFavorite = async () => {
-    if (!selectedZip || !US_ZIP.test(selectedZip)) {
+    if (!weather || !selectedZip || !US_ZIP.test(selectedZip)) {
       return;
     }
     try {
-      await addFavorite(selectedZip);
+      await addFavorite({
+        zip: selectedZip,
+        name: weather.location.name,
+        region: weather.location.region,
+      });
       setFavorites(await fetchFavorites());
     } catch {
       // Already a favorite or the server is unavailable.
@@ -153,7 +154,6 @@ export default function App() {
       <MainScreen
         weather={weather}
         selectedZip={selectedZip}
-        fromFavorite={fromFavorite}
         isFavorite={isFavorite}
         useMetric={useMetric}
         onOpenSearch={() => setModalVisible(true)}
@@ -167,7 +167,6 @@ export default function App() {
         searchResult={searchResult}
         favorites={favorites}
         loadingFavoriteId={loadingFavoriteId}
-        useMetric={useMetric}
         onChangeZip={(value) => setDraftZip(value.replace(/[^\d]/g, '').slice(0, 5))}
         onCancel={closeModal}
         onSelectResult={handleSelectResult}

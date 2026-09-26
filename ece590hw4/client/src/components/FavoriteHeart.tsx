@@ -10,38 +10,34 @@ interface FavoriteHeartProps {
 export function FavoriteHeart({ isFavorite, onAddFavorite }: FavoriteHeartProps) {
   if (isFavorite) {
     return (
-      <View style={styles.row}>
+      <View style={styles.saved}>
         <FontAwesome name="heart" size={22} color={colors.heart} />
       </View>
     );
   }
 
   return (
-    <Pressable onPress={onAddFavorite} style={styles.button} accessibilityRole="button">
-      <FontAwesome name="heart-o" size={18} color={colors.surface} />
-      <Text style={styles.buttonText}>Add to Favorites</Text>
+    <Pressable onPress={onAddFavorite} style={styles.action} accessibilityRole="button">
+      <FontAwesome name="heart-o" size={18} color={colors.navy} />
+      <Text style={styles.actionText}>Add to Favorites</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  saved: {
     minHeight: 44,
+    justifyContent: 'center',
   },
-  button: {
+  action: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: colors.navy,
-    borderRadius: 4,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    minHeight: 44,
   },
-  buttonText: {
+  actionText: {
     fontFamily: fonts.regular,
     fontSize: 16,
-    color: colors.surface,
+    color: colors.navy,
   },
 });

@@ -13,7 +13,7 @@ export function ForecastDay({ day, useMetric }: ForecastDayProps) {
   const low = useMetric ? day.day.mintemp_c : day.day.mintemp_f;
 
   return (
-    <View style={styles.card}>
+    <View style={styles.row}>
       <Text style={styles.date}>{formatDay(day.date)}</Text>
       <Image
         style={styles.icon}
@@ -27,27 +27,32 @@ export function ForecastDay({ day, useMetric }: ForecastDayProps) {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    flex: 1,
+  row: {
+    width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    justifyContent: 'space-between',
     backgroundColor: colors.forecast,
     borderRadius: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 8,
   },
   date: {
+    flex: 1,
     fontFamily: fonts.regular,
-    fontSize: 18,
+    fontSize: 16,
     color: colors.text,
   },
   icon: {
-    width: 64,
-    height: 64,
+    width: 48,
+    height: 48,
   },
   temp: {
     fontFamily: fonts.regular,
-    fontSize: 14,
+    fontSize: 16,
     color: colors.text,
+    minWidth: 72,
+    textAlign: 'right',
   },
 });

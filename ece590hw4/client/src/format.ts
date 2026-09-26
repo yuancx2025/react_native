@@ -25,8 +25,3 @@ export function conditionIconUrl(icon: string): string {
   }
   return `https:${icon}`;
 }
-
-export function formatLocation(name: string, region: string, zip?: string): string {
-  const place = `${name}, ${region}`;
-  return zip ? `${place} (${zip})` : place;
-}

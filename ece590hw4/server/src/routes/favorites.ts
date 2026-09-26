@@ -9,13 +9,20 @@ router.get("/", (_req, res) => {
 
 router.post("/", (req, res) => {
   const zip = typeof req.body?.zip === "string" ? req.body.zip.trim() : "";
+  const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
+  const region = typeof req.body?.region === "string" ? req.body.region.trim() : "";
 
   if (!dbFavorites.isValidUsZip(zip)) {
     res.status(400).json({ error: "A valid 5-digit US zip code is required" });
     return;
   }
 
-  const favorite = dbFavorites.create(zip);
+  if (!name || !region) {
+    res.status(400).json({ error: "A location name and region are required" });
+    return;
+  }
+
+  const favorite = dbFavorites.create(zip, name, region);
   if (!favorite) {
     res.status(400).json({ error: "That zip code is already in favorites" });
     return;
