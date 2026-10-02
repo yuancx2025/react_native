@@ -5,7 +5,7 @@ A mobile weather app built with Expo Router. Current conditions and the 3-day fo
 ## Setup
 
 Install the Android Emulator and/or iOS Simulator first:
-https://docs.expo.dev/get-started/set-up-your-environment/
+[https://docs.expo.dev/get-started/set-up-your-environment/](https://docs.expo.dev/get-started/set-up-your-environment/)
 
 ```bash
 cd ece590hw5/client
@@ -13,7 +13,7 @@ npm install
 cp .env.example .env
 ```
 
-`.env` needs a WeatherAPI key:
+`.env` needs a WeatherAPI key (already provided in this repo):
 
 ```
 EXPO_PUBLIC_WEATHER_API_KEY=your-weatherapi-key
@@ -46,17 +46,3 @@ There is no favorites server. Saved places stay on the device.
 9. Tap a day in the 3-day forecast to open **Hourly Forecast**. Today starts at the current hour and runs through 11 PM. The next two days show all 24 hours. The list scrolls.
 10. The back button on Hourly Forecast returns to Weather.
 
-Empty Weather screen copy: `Touch the search bar to enter a zip code`.
-
-Light mode follows the Figma colors. Dark mode follows the device appearance and keeps the text readable. Switch the simulator appearance to check both.
-
-## Project layout
-
-| Path | Role |
-|------|------|
-| `client/app/_layout.tsx` | Root stack, theme, favorites and weather context |
-| `client/app/(drawer)/` | Drawer: Weather and Manage Favorites |
-| `client/app/(drawer)/main/` | Stack: Weather and Hourly Forecast |
-| `client/app/search.tsx` | Zip search presented as a modal |
-| `client/src/context/` | AsyncStorage favorites and shared weather state |
-| `client/.env` | WeatherAPI key (`EXPO_PUBLIC_WEATHER_API_KEY`) |
